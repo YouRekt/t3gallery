@@ -38,7 +38,7 @@ export default function RootLayout({
 						forcedTheme="dark"
 						disableTransitionOnChange
 					> */}
-					<div className="h-screen grid grid-rows-[auto,1fr]">
+					<div className="h-dvh grid grid-rows-[auto,1fr]">
 						<TopNav />
 						<main className="overflow-y-auto">{children}</main>
 					</div>
