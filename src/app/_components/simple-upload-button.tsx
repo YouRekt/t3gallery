@@ -2,6 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { useUploadThing } from "~/utils/uploadthing";
+import { toast } from "sonner";
+import { Button } from "~/components/ui/button";
+import { quantum } from "ldrs";
 
 // inferred input off useUploadThing
 type Input = Parameters<typeof useUploadThing>;
@@ -49,9 +52,25 @@ function UploadIcon() {
 	);
 }
 
+function LoadingSpinner() {
+	quantum.register();
+	return <l-quantum size="24" speed="1.75" color="black" />;
+}
+
 export default function SimpleUploadButton() {
 	const { inputProps } = useUploadThingInputProps("imageUploader", {
+		onUploadBegin() {
+			toast(
+				<div className="flex items-center gap-2 font-medium">
+					<LoadingSpinner />
+					Uploading...
+				</div>,
+				{ duration: 100000, id: "upload-begin" }
+			);
+		},
 		onClientUploadComplete() {
+			toast.dismiss("upload-begin");
+			toast("Upload complete!", { duration: 2000 });
 			router.refresh();
 		},
 	});
@@ -59,9 +78,11 @@ export default function SimpleUploadButton() {
 
 	return (
 		<div>
-			<label htmlFor="upload-button" className="cursor-pointer">
-				<UploadIcon />
-			</label>
+			<Button variant="outline" size="icon">
+				<label htmlFor="upload-button" className="cursor-pointer">
+					<UploadIcon />
+				</label>
+			</Button>
 			<input
 				id="upload-button"
 				type="file"
