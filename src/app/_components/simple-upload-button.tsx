@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useUploadThing } from "~/utils/uploadthing";
 import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
-import { quantum } from "ldrs";
 
 // inferred input off useUploadThing
 type Input = Parameters<typeof useUploadThing>;
@@ -53,24 +52,36 @@ function UploadIcon() {
 }
 
 function LoadingSpinner() {
-	quantum.register();
-	return <l-quantum size="24" speed="1.75" color="black" />;
+	return (
+		<svg
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
+			xmlns="http://www.w3.org/2000/svg"
+			fill="black"
+		>
+			<path
+				d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z"
+				className="spinner_ajPY"
+			/>
+		</svg>
+	);
 }
 
 export default function SimpleUploadButton() {
 	const { inputProps } = useUploadThingInputProps("imageUploader", {
 		onUploadBegin() {
 			toast(
-				<div className="flex items-center gap-2 font-medium">
+				<div className="flex gap-2 items-center ">
 					<LoadingSpinner />
-					Uploading...
+					<span className="font-normal text-lg">Uploading...</span>
 				</div>,
 				{ duration: 100000, id: "upload-begin" }
 			);
 		},
 		onClientUploadComplete() {
 			toast.dismiss("upload-begin");
-			toast("Upload complete!", { duration: 2000 });
+			toast("Upload complete!");
 			router.refresh();
 		},
 	});
