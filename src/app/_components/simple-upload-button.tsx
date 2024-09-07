@@ -89,7 +89,7 @@ export default function SimpleUploadButton() {
 
 	return (
 		<div>
-			<Button variant="outline" size="icon">
+			<Button variant="outline" size="icon" asChild>
 				<label htmlFor="upload-button" className="cursor-pointer">
 					<UploadIcon />
 				</label>
